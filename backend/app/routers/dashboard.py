@@ -258,7 +258,7 @@ def _monthly_statement(
     trade_type: str | None,
     code: str | None,
 ):
-    work_month = func.strftime("%Y-%m", models.ApprovalCase.created_at)
+    work_month = func.to_char(models.ApprovalCase.created_at, "YYYY-MM")
     statement = select(
         work_month.label("work_month"),
         func.count(models.ApprovalCase.id),
