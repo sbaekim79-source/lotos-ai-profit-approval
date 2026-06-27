@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: lotos-ai-approval-postgres
+    environment:
+      POSTGRES_DB: lotos_ai_approval
+      POSTGRES_USER: lotos_user
+      POSTGRES_PASSWORD: lotos_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+  backend:
+    build:
+      context: ./backend
+    container_name: lotos-ai-approval-backend
+    ports:
+      - "8010:8010"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://lotos_user:lotos_password@postgres:5432/lotos_ai_approval
+      APP_ENV: development
+      SECRET_KEY: change-this-secret
+      UPLOAD_DIR: /app/uploads
+      REPORT_DIR: /app/generated_reports
+      LOG_DIR: /app/logs
+      BACKUP_DIR: /app/backups
+    volumes:
+      - ./backend/app/data:/app/app/data
+      - ./backend/uploads:/app/uploads
+      - ./backend/generated_reports:/app/generated_reports
+      - ./backend/logs:/app/logs
+      - ./backend/backups:/app/backups
+    depends_on:
+      - postgres
+    restart: unless-stopped
+  frontend:
+    build:
+      context: ./frontend
+    container_name: lotos-ai-approval-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8010
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

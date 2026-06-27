@@ -1,0 +1,44 @@
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.pyo
+
+# Logs & PIDs
+logs/
+*.pid
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# Environment
+.env
+.env.local
+
+# Backend - runtime directories
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/generated_reports/*
+!backend/generated_reports/.gitkeep
+backend/logs/*
+!backend/logs/.gitkeep
+backend/backups/*
+!backend/backups/.gitkeep
+backend/exports/*
+!backend/exports/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Root level temp files
+backend-8010.err.log
+backend-8010.out.log
+backend-8010.pid
+backend-debug.pid
+outputs/
+work/
+.pnpm-store/
